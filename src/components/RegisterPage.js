@@ -7,10 +7,32 @@ import {
   SafeAreaView,
   StatusBar,
   TextInput,
+  Image,
 } from "react-native";
+import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { registerUser } from "../store/Action";
+import * as ImagePicker from "expo-image-picker";
 
 const RegisterPage = () => {
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(password);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   const [fullname, setFullName] = useState(null);
   const [emailAddress, setEmailAddress] = useState(null);
   const [phonenumber, setPhoneNumber] = useState(null);
@@ -27,10 +49,30 @@ const RegisterPage = () => {
       <StatusBar StatusBar="dark-content" />
 
       <View style={styles.container}>
-        <View>
-          <Text>PROFILE CAMERA IMAGE HERE</Text>
+        <View style={{ flex: 20 }}>
+          {image ? (
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                source={{ uri: image }}
+                style={{ width: 150, height: 150, marginTop: 20 }}
+              />
+              <View style={{ paddingTop: 20 }}>
+                <TouchableOpacity onPress={pickImage}>
+                  <Feather name="user-plus" size={30} color="black" />
+                </TouchableOpacity>
+                <Text>Change Photo</Text>
+              </View>
+            </View>
+          ) : (
+            <View style={{ paddingTop: 20 }}>
+              <TouchableOpacity onPress={pickImage}>
+                <Feather name="user-plus" size={30} color="black" />
+              </TouchableOpacity>
+              <Text>ADD PROFILE PHOTO</Text>
+            </View>
+          )}
         </View>
-        <View style={{ marginTop: 50 }}>
+        <View style={{ marginTop: 10, flex: 50 }}>
           <TextInput
             style={styles.input}
             placeholder="Full Name"
@@ -38,7 +80,6 @@ const RegisterPage = () => {
             autoCorrect={false}
             value={fullname}
             onChangeText={(text) => setFullName(text)}
-            keyboardType="text"
           />
           <TextInput
             style={styles.input}
@@ -51,7 +92,7 @@ const RegisterPage = () => {
           <TextInput
             style={styles.input}
             placeholder="Phone Number"
-            keyboardType="numeric"
+            keyboardType="phone-pad"
             autoCapitalize="none"
             value={phonenumber}
             onChangeText={(text) => setPhoneNumber(text)}
@@ -74,23 +115,25 @@ const RegisterPage = () => {
             style={styles.input}
             value={password}
             placeholder="Password"
-            onChangeText={(password) => setPassword()}
+            onChangeText={(text) => setPassword(text)}
             secureTextEntry={true}
           />
           <TextInput
             style={styles.input}
             placeholder="Repeat Password"
             value={repeatpassword}
-            onChangeText={(password) => setRepeatPassword()}
+            onChangeText={(text) => setRepeatPassword(text)}
             secureTextEntry={true}
           />
         </View>
-        <View>
+        <View style={{ flex: 20 }}>
           <TouchableOpacity
             style={{
               backgroundColor: "lightblue",
-              //   borderWidth: 2,
-              borderRadius: 5,
+              backgroundColor: "white",
+              borderWidth: 1,
+              borderColor: "blue",
+              borderRadius: 6,
               height: 40,
               width: 150,
               alignItems: "center",
@@ -99,18 +142,19 @@ const RegisterPage = () => {
               marginHorizontal: 140,
               margin: 70,
             }}
-            OnPress={() => navigation.navigate("SignIn")}
+            onPress={() => registerUser(emailAddress, password)}
           >
             <Text style={{ paddingLeft: 10 }}>REGISTER</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity>
-          <View>
+          <View tyle={{ flex: 10 }}>
             <Text
               style={{
                 fontSize: 12,
                 color: "blue",
                 fontWeight: "bold",
+                marginBottom: 15,
               }}
             >
               You already have an account? Login !

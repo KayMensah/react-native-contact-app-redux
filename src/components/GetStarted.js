@@ -43,7 +43,7 @@ const GetStarted = ({ navigation }) => {
               <Text>REGISTER</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Contact")}>
+          <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
             <View
               style={{
                 borderBottomWidth: 1,
