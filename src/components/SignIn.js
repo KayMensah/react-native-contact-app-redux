@@ -12,12 +12,32 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import signin from "../../assets/img/signin.jpg";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const SignIn = () => {
-  const [emailAddress, setEmailAddress] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
+
+  const signin1 = () => {
+    console.log(emailAddress, password);
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, emailAddress, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        navigation.navigate("KayScan");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        console.log(errorCode, errorMessage);
+      });
+  };
+
   return (
     // <SafeAreaView style={{ flex: 1 }}>
     //   <StatusBar StatusBar="dark-content" />
@@ -40,7 +60,7 @@ const SignIn = () => {
             style={styles.input}
             value={password}
             placeholder="Password"
-            onChangeText={(password) => setPassword()}
+            onChangeText={(password) => setPassword(password)}
             secureTextEntry={true}
           />
         </View>
@@ -59,7 +79,7 @@ const SignIn = () => {
               marginHorizontal: 140,
               margin: 30,
             }}
-            onPress={() => navigation.navigate("KayScan")}
+            onPress={signin1}
           >
             <Text style={{ paddingLeft: 15 }}>SIGN IN</Text>
           </TouchableOpacity>

@@ -8,11 +8,13 @@ import {
   StatusBar,
   SafeAreaView,
   Image,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import QRCode from "react-native-qrcode-svg";
 import korkorpix from "../../assets/img/korkorpix.jpg";
+import { getAuth, signOut } from "firebase/auth";
 
 const KayScan = () => {
   const userInfo = {
@@ -22,11 +24,31 @@ const KayScan = () => {
     email: "kay@gmail.com",
     location: "Chicago",
   };
-  const navigation = useNavigation();
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle="dark-content" />
 
+  const navigation = useNavigation();
+
+  const logout = async () => {
+    /**
+     * import { getAuth, signOut } from "firebase/auth";
+
+const auth = getAuth();
+signOut(auth).then(() => {
+  // Sign-out successful.
+}).catch((error) => {
+  // An error happened.
+});
+     */
+
+    const auth = getAuth();
+    await signOut(auth);
+
+    navigation.reset({ index: 0, routes: [{ name: "Welcome" }] });
+  };
+
+  return (
+    // <SafeAreaView style={{ flex: 1 }}>
+    //   <StatusBar barStyle="dark-content" />
+    <ScrollView>
       <View style={styles.container}>
         <View style={{ marginTop: 40, flex: 20 }}>
           <Text
@@ -48,7 +70,7 @@ const KayScan = () => {
         </View>
         <View
           style={{
-            marginTop: 10,
+            marginTop: 250,
             flex: 20,
             flexDirection: "row",
             alignItems: "center",
@@ -58,9 +80,9 @@ const KayScan = () => {
           <Image
             source={korkorpix}
             style={{
-              height: 120,
-              width: 120,
-              borderRadius: "60%",
+              height: 100,
+              width: 100,
+              borderRadius: 50,
             }}
           />
           <View
@@ -110,11 +132,34 @@ const KayScan = () => {
               marginRight: 80,
             }}
           >
-            <Text style={{ paddingLeft: 10 }}>Scan QR</Text>
+            <Text style={{ paddingLeft: 7 }}>Scan QR</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ marginBottom: 20 }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "lightblue",
+              backgroundColor: "white",
+              borderWidth: 1,
+              borderColor: "blue",
+              borderRadius: 6,
+              height: 40,
+              width: 130,
+              alignItems: "center",
+              flexDirection: "row",
+              paddingHorizontal: 30,
+              marginHorizontal: 140,
+              marginTop: 10,
+              marginRight: 80,
+            }}
+            onPress={logout}
+          >
+            <Text style={{ paddingLeft: 10 }}>Log Out</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
+    // </SafeAreaView>
   );
 };
 

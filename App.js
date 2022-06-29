@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 import { persistor, store } from "./src/store/Store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-
 import { LogBox } from "react-native";
 import Router from "./src/router";
 
@@ -26,7 +25,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    // paddingHorizontal: 16,
     backgroundColor: "lavender",
   },
 });

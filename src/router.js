@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./firebase/Config";
 import { setAuthenticated, setUser } from "./store/Action";
 import { TouchableOpacity } from "react-native";
+// import { AntDesign } from "@expo/vector-icons";
+// import { useNavigation } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 

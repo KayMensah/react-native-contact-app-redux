@@ -44,6 +44,12 @@ const RegisterPage = () => {
   console.log(emailAddress);
 
   const navigation = useNavigation();
+
+  const register1 = () => {
+    registerUser(emailAddress, password);
+    navigation.navigate("Welcome");
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar StatusBar="dark-content" />
@@ -142,7 +148,7 @@ const RegisterPage = () => {
               marginHorizontal: 140,
               margin: 70,
             }}
-            onPress={() => registerUser(emailAddress, password)}
+            onPress={register1}
           >
             <Text style={{ paddingLeft: 10 }}>REGISTER</Text>
           </TouchableOpacity>

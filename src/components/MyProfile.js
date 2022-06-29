@@ -23,8 +23,8 @@ const MyProfile = () => {
             <Image
               source={korkorpix}
               style={{
-                width: 150,
-                height: 150,
+                width: 120,
+                height: 120,
                 borderRadius: 100,
               }}
             />
